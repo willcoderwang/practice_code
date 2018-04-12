@@ -15,6 +15,13 @@ class MaxHeap(object):
         if right_child_index < len(self.heap):
             return right_child_index
 
+    def has_child(self, index=0):
+        if not self.get_left_child_index(index) and \
+           not self.get_right_child_index(index):
+            return False
+
+        return True
+
     def get_parent_child_index(self, index):
         if index == 0:
             return
