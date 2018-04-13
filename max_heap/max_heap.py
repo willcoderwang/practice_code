@@ -3,8 +3,15 @@
 
 class MaxHeap(object):
     def __init__(self, heap=None):
-        self.heap = [] if heap is None else heap
+        self.heap = [] if heap is None else heap.copy()
         self.size = len(heap)
+
+    def __eq__(self, other=None):
+        if other and isinstance(other, MaxHeap) and \
+           self.size == other.size and \
+           self.heap[:self.size] == other.heap[:other.size]:
+            return True
+        return False
 
     def __repr__(self):
         return str(self.heap)
@@ -53,3 +60,27 @@ class MaxHeap(object):
         if largest != index:
             self.heap[index], self.heap[largest] = self.heap[largest], self.heap[index]
             self.max_heapify(largest)
+
+    @staticmethod
+    def max_heap_sort(data):
+        if isinstance(data, list):
+            heap = MaxHeap(heap=data)
+            return heap.__max_heap_sort()
+        elif isinstance(data, MaxHeap):
+            heap_data = data.heap
+            heap_size = data.size
+            return MaxHeap.max_heap_sort(heap_data[:heap_size])
+        else:
+            raise TypeError("cannot sort type other than list or MaxHeap")
+
+    def __max_heap_sort(self):
+        result_list = []
+        self.build_max_heap()
+        for i in range(self.size):
+            result_list.append(self.heap[0])
+
+            self.heap[0], self.heap[self.size-1] = self.heap[self.size-1], self.heap[0]
+            self.size -= 1
+            self.max_heapify(index=0)
+
+        return result_list
