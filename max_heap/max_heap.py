@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
 
-def swap(a, b):
-    a, b = b, a
-
-
 class MaxHeap(object):
     def __init__(self, heap=None):
         self.heap = [] if heap is None else heap
@@ -42,16 +38,16 @@ class MaxHeap(object):
     def max_heapify(self, index):
         largest = index
 
-        left_child_index = self.get_left_child_index()
+        left_child_index = self.get_left_child_index(index)
         if left_child_index and \
            self.heap[left_child_index] > self.heap[largest]:
             largest = left_child_index
 
-        right_child_index = self.get_right_child_index()
+        right_child_index = self.get_right_child_index(index)
         if right_child_index and \
            self.heap[right_child_index] > self.heap[largest]:
             largest = right_child_index
 
         if largest != index:
-            swap(self[index], self[largest])
+            self.heap[index], self.heap[largest] = self.heap[largest], self.heap[index]
             self.max_heapify(largest)
