@@ -4,26 +4,24 @@
 class MaxHeap(object):
     def __init__(self, heap=None):
         self.heap = [] if heap is None else heap
+        self.size = len(heap)
 
     def __repr__(self):
         return str(self.heap)
 
-    def get_size(self):
-        return len(self.heap)
-
     def build_max_heap(self):
-        start_point = int((self.get_size() - 1) / 2)
+        start_point = int((self.size - 1) / 2)
         for i in reversed(range(start_point)):
             self.max_heapify(i)
 
     def get_left_child_index(self, index=0):
         left_child_index = index * 2 + 1
-        if left_child_index < len(self.heap):
+        if left_child_index < self.size:
             return left_child_index
 
     def get_right_child_index(self, index=0):
         right_child_index = index * 2 + 2
-        if right_child_index < len(self.heap):
+        if right_child_index < self.size:
             return right_child_index
 
     def has_child(self, index=0):
@@ -34,11 +32,10 @@ class MaxHeap(object):
         return True
 
     def get_parent_child_index(self, index):
-        if index == 0:
+        if index == 0 or index > self.size:
             return
         parent_index = (index - 1) / 2
-        if parent_index < len(self.heap):
-            return parent_index
+        return parent_index
 
     def max_heapify(self, index):
         largest = index
