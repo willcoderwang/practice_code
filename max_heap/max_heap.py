@@ -11,6 +11,11 @@ class MaxHeap(object):
     def get_size(self):
         return len(self.heap)
 
+    def build_max_heap(self):
+        start_point = int((self.get_size() - 1) / 2)
+        for i in reversed(range(start_point)):
+            self.max_heapify(i)
+
     def get_left_child_index(self, index=0):
         left_child_index = index * 2 + 1
         if left_child_index < len(self.heap):
