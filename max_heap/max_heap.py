@@ -1,6 +1,10 @@
+def swap(a, b):
+    a, b = b, a
+
+
 class MaxHeap(object):
-    def __init__(self):
-        self.heap = []
+    def __init__(self, heap=None):
+        self.heap = [] if heap is None else heap
 
     def get_size(self):
         return len(self.heap)
@@ -28,3 +32,20 @@ class MaxHeap(object):
         parent_index = (index - 1) / 2
         if parent_index < len(self.heap):
             return parent_index
+
+    def max_heapify(self, index):
+        largest = index
+
+        left_child_index = self.get_left_child_index()
+        if left_child_index and \
+           self.heap[left_child_index] > self.heap[largest]:
+            largest = left_child_index
+
+        right_child_index = self.get_right_child_index()
+        if right_child_index and \
+           self.heap[right_child_index] > self.heap[largest]:
+            largest = right_child_index
+
+        if largest != index:
+            swap(self[index], self[largest])
+            self.max_heapify(largest)
