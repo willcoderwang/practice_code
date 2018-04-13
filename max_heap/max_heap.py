@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+
 def swap(a, b):
     a, b = b, a
 
