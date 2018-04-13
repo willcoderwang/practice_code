@@ -9,6 +9,9 @@ class MaxHeap(object):
     def __init__(self, heap=None):
         self.heap = [] if heap is None else heap
 
+    def __repr__(self):
+        return str(self.heap)
+
     def get_size(self):
         return len(self.heap)
 
