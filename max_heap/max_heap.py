@@ -38,10 +38,10 @@ class MaxHeap(object):
 
         return True
 
-    def get_parent_child_index(self, index):
+    def get_parent_index(self, index):
         if index == 0 or index > self.size:
             return
-        parent_index = (index - 1) / 2
+        parent_index = int((index - 1) / 2)
         return parent_index
 
     def max_heapify(self, index):
@@ -84,3 +84,49 @@ class MaxHeap(object):
             self.max_heapify(index=0)
 
         return result_list
+
+    def maximum(self):
+        return self.heap[0] if self.size > 0 else None
+
+    def extract_maximum(self):
+        if self.size == 0:
+            return
+        max_res = self.heap[0]
+
+        self.heap[0] = self.heap[self.size-1]
+        self.size -= 1
+        self.max_heapify(index=0)
+        return max_res
+
+    def value_change(self, index, new_value, insert=False):
+        if index >= self.size:
+            return
+        old_value = self.heap[index]
+
+        # if insert is True, ignore index
+        if insert:
+            index = self.size - 1
+
+        if new_value > old_value or insert:
+            old_index = index
+            new_index = self.get_parent_index(old_index)
+            while new_index is not None:
+                if self.heap[new_index] < new_value:
+                    self.heap[old_index] = self.heap[new_index]
+                    old_index = new_index
+                    new_index = self.get_parent_index(old_index)
+                else:
+                    break
+            self.heap[old_index] = new_value
+        elif new_value < old_value:
+            self.heap[index] = new_value
+            self.max_heapify(index=index)
+
+    def insert(self, value):
+        if len(self.heap) == self.size:
+            self.heap.append(value)
+        else:
+            self.heap[self.size] = value
+
+        self.size += 1
+        self.value_change(0, value, insert=True)
